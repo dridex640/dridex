@@ -306,7 +306,7 @@ button:hover{
 
 <script>
 const socket = io();
-const DAVET_KODU = "MURAT2026";
+const DAVET_KODU = "DRIDEX2026";
 
 let currentUser = "";
 let avatar = "";
@@ -373,12 +373,13 @@ function login(){
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  if(code !== DAVET_KODU){
-    error.style.color = "#ff5555";
-    error.innerText = "Davet kodu hatalı!";
-    return;
-  }
+const code = document.getElementById("code").value.trim();
 
+if(code !== DAVET_KODU){
+  error.style.color = "#ff5555";
+  error.innerText = "Davet kodu hatalı!";
+  return;
+}
   if(username.length < 5){
     error.style.color = "#ff5555";
     error.innerText = "Kullanıcı adı en az 5 karakter olmalı!";
