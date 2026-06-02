@@ -249,14 +249,13 @@ button:hover{
 
 <div class="box" id="loginBox">
   <h2>DRIDEXCHAT</h2>
+<input id="code" placeholder="Davet kodu">
+<input id="username" placeholder="Kullanıcı adı">
+<input id="password" type="password" placeholder="Şifre">
+<input id="avatarInput" type="file" accept="image/*">
 
-  
-  <input id="username" placeholder="Kullanıcı adı">
-  <input id="password" type="password" placeholder="Şifre">
-  <input id="avatarInput" type="file" accept="image/*">
+<button id="loginBtn">Kanala Gir</button>
 
-  <button id="registerBtn">Kayıt Ol</button>
-<button id="loginBtn">Giriş Yap</button>
 <p id="error"></p>
 </div>
 
@@ -319,7 +318,7 @@ const messages = document.getElementById("messages");
 const msg = document.getElementById("msg");
 
 document.getElementById("loginBtn").addEventListener("click", login);
-document.getElementById("registerBtn").addEventListener("click", registerUser);
+
 document.getElementById("registerBtn").addEventListener("click", registerUser);
 document.getElementById("sendBtn").addEventListener("click", sendMessage);
 
@@ -363,60 +362,36 @@ document.getElementById("imageInput").addEventListener("change", function(){
   };
   reader.readAsDataURL(file);
 });
-
 msg.addEventListener("keydown", function(e){
   if(e.key === "Enter"){
     sendMessage();
   }
 });
 
-async function registerUser(){
+function login(){
+  const code = document.getElementById("code").value.trim();
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  const response = await fetch("/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      username,
-      password
-    })
-  });
-
-  const result = await response.json();
-  error.innerText = result.message;
-
-  if(result.success){
-    error.style.color = "#00ff66";
-  } else {
+  if(code !== DAVET_KODU){
     error.style.color = "#ff5555";
-  }
-async function login(){
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  const response = await fetch("/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      username: username,
-      password: password
-    })
-  });
-
-  const result = await response.json();
-
-  if(!result.success){
-    error.style.color = "#ff5555";
-    error.innerText = result.message;
+    error.innerText = "Davet kodu hatalı!";
     return;
   }
 
-  currentUser = result.username;
+  if(username.length < 5){
+    error.style.color = "#ff5555";
+    error.innerText = "Kullanıcı adı en az 5 karakter olmalı!";
+    return;
+  }
+
+  if(password.length < 6){
+    error.style.color = "#ff5555";
+    error.innerText = "Şifre en az 6 karakter olmalı!";
+    return;
+  }
+
+  currentUser = username;
 
   loginBox.style.display = "none";
   chatBox.style.display = "block";
