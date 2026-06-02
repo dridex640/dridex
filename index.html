@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Özel Sohbet</title>
+<title>DRIDEXCHAT</title>
 
 <style>
 *{box-sizing:border-box}
@@ -12,7 +12,7 @@ body{
   margin:0;
   height:100vh;
   background:#000;
-  color:#ff7be5;
+  color:#fff;
   font-family:Arial,sans-serif;
   overflow:hidden;
 }
@@ -27,9 +27,9 @@ body{
 .box{
   width:430px;
   max-width:92vw;
-  background:rgba(0,0,0,.88);
-  border:1px solid #ff4fd8;
-  box-shadow:0 0 40px #ff4fd8;
+  background:rgba(0,0,0,.92);
+  border:1px solid #ff1f1f;
+  box-shadow:0 0 40px #ff1f1f;
   padding:30px;
   border-radius:20px;
   position:absolute;
@@ -40,7 +40,8 @@ body{
 
 h2,h3{
   text-align:center;
-  text-shadow:0 0 12px #ff4fd8;
+  color:#fff;
+  text-shadow:0 0 12px #ff1f1f;
 }
 
 input,button{
@@ -48,24 +49,24 @@ input,button{
   padding:13px;
   margin-top:12px;
   border-radius:12px;
-  border:1px solid #ff4fd8;
-  background:#000;
-  color:#ffb3f1;
+  border:1px solid #ff1f1f;
+  background:#050505;
+  color:#fff;
   font-size:15px;
   outline:none;
 }
 
 button{
-  background:#ff4fd8;
-  color:#000;
+  background:#ff1f1f;
+  color:#fff;
   font-weight:bold;
   cursor:pointer;
 }
 
 button:hover{
   background:#000;
-  color:#ff4fd8;
-  box-shadow:0 0 15px #ff4fd8;
+  color:#ff1f1f;
+  box-shadow:0 0 15px #ff1f1f;
 }
 
 #error{
@@ -77,9 +78,9 @@ button:hover{
   display:none;
   width:min(980px,96vw);
   height:min(660px,94vh);
-  background:rgba(0,0,0,.88);
-  border:1px solid #ff4fd8;
-  box-shadow:0 0 45px #ff4fd8;
+  background:rgba(0,0,0,.94);
+  border:1px solid #ff1f1f;
+  box-shadow:0 0 45px #ff1f1f;
   border-radius:20px;
   overflow:hidden;
   position:absolute;
@@ -93,16 +94,17 @@ button:hover{
   height:100%;
   float:left;
   padding:15px;
-  border-right:1px solid #ff4fd8;
-  background:rgba(50,0,40,.75);
+  border-right:1px solid #ff1f1f;
+  background:rgba(15,0,0,.9);
 }
 
 .user{
   padding:10px;
   margin:8px 0;
-  border:1px solid #ff4fd8;
+  border:1px solid #ff1f1f;
   border-radius:10px;
-  background:rgba(255,79,216,.13);
+  background:rgba(255,31,31,.12);
+  color:#fff;
 }
 
 .main{
@@ -116,38 +118,43 @@ button:hover{
   padding:15px;
   text-align:center;
   font-weight:bold;
-  border-bottom:1px solid #ff4fd8;
-  background:rgba(70,0,55,.85);
+  border-bottom:1px solid #ff1f1f;
+  background:#0b0b0b;
+  color:#fff;
+  text-shadow:0 0 12px #ff1f1f;
+  letter-spacing:2px;
 }
 
 #messages{
   flex:1;
   padding:15px;
   overflow-y:auto;
+  background:rgba(0,0,0,.85);
 }
 
 .message{
-  background:rgba(255,79,216,.12);
-  border-left:3px solid #ff4fd8;
+  background:#080808;
+  border-left:3px solid #ff1f1f;
   padding:10px;
   border-radius:12px;
   margin-bottom:10px;
+  color:#fff;
 }
 
 .name{
   font-weight:bold;
-  color:#ff7be5;
+  color:#ff3b3b;
 }
 
 .time{
   float:right;
   font-size:12px;
-  color:#ffc8f5;
+  color:#aaa;
 }
 
 .system{
   text-align:center;
-  color:#ffc8f5;
+  color:#ccc;
   font-size:13px;
   margin-bottom:10px;
 }
@@ -157,13 +164,13 @@ button:hover{
   max-height:220px;
   border-radius:12px;
   margin-top:8px;
-  border:1px solid #ff4fd8;
+  border:1px solid #ff1f1f;
 }
 
 .input-area{
   padding:12px;
-  border-top:1px solid #ff4fd8;
-  background:rgba(50,0,40,.9);
+  border-top:1px solid #ff1f1f;
+  background:#070707;
 }
 
 .tools{
@@ -196,9 +203,10 @@ button:hover{
 #emojiPanel{
   display:none;
   padding:8px;
-  border:1px solid #ff4fd8;
+  border:1px solid #ff1f1f;
   border-radius:10px;
   margin-bottom:8px;
+  background:#050505;
 }
 
 .emoji{
@@ -215,7 +223,7 @@ button:hover{
     height:120px;
     float:none;
     border-right:none;
-    border-bottom:1px solid #ff4fd8;
+    border-bottom:1px solid #ff1f1f;
     overflow-y:auto;
   }
 
@@ -240,7 +248,7 @@ button:hover{
 <canvas id="matrix"></canvas>
 
 <div class="box" id="loginBox">
-  <h2>❤️ Özel Sohbet Kanalı</h2>
+  <h2>DRIDEXCHAT</h2>
 
   <input id="code" placeholder="Davet kodu">
   <input id="username" placeholder="Kullanıcı adı">
@@ -253,12 +261,12 @@ button:hover{
 
 <div id="chatBox">
   <div class="sidebar">
-    <h3>💕 Aktif Kullanıcılar</h3>
+    <h3>Çevrimiçi Kullanıcılar</h3>
     <div id="users"></div>
   </div>
 
   <div class="main">
-    <div class="header">❤️ Çiftlere Özel Canlı Sohbet ❤️</div>
+    <div class="header">DRIDEXCHAT</div>
 
     <div id="messages"></div>
 
@@ -266,13 +274,13 @@ button:hover{
       <div id="emojiPanel">
         <span class="emoji">😀</span>
         <span class="emoji">😂</span>
-        <span class="emoji">😍</span>
-        <span class="emoji">😘</span>
-        <span class="emoji">❤️</span>
+        <span class="emoji">😎</span>
         <span class="emoji">🔥</span>
-        <span class="emoji">🥺</span>
-        <span class="emoji">💕</span>
-        <span class="emoji">🌹</span>
+        <span class="emoji">💀</span>
+        <span class="emoji">👑</span>
+        <span class="emoji">⚡</span>
+        <span class="emoji">🖤</span>
+        <span class="emoji">🚀</span>
       </div>
 
       <div class="tools">
@@ -477,7 +485,7 @@ function escapeHtml(text){
     .replaceAll("'","&#039;");
 }
 
-/* MATRIX */
+/* RED MATRIX */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -488,7 +496,7 @@ function resizeCanvas(){
 
 resizeCanvas();
 
-const letters = "01LOVEHEARTMURAT#$%&@";
+const letters = "01DRIDEXCHAT#$%&@";
 const fontSize = 17;
 let columns = Math.floor(canvas.width / fontSize);
 let drops = Array(columns).fill(1);
@@ -497,7 +505,7 @@ function drawMatrix(){
   ctx.fillStyle = "rgba(0,0,0,0.08)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
-  ctx.fillStyle = "#ff4fd8";
+  ctx.fillStyle = "#ff1f1f";
   ctx.font = fontSize + "px monospace";
 
   for(let i=0;i<drops.length;i++){
@@ -523,3 +531,4 @@ window.addEventListener("resize", function(){
 
 </body>
 </html>
+ 
