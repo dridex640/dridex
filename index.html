@@ -260,7 +260,16 @@ button:hover{
 </div>
 
 <div id="chatBox">
-  <div class="sidebar">
+<h3>Odalar</h3>
+
+<div class="user" onclick="changeRoom('genel')"># Genel</div>
+<div class="user" onclick="changeRoom('oyun')"># Oyun</div>
+<div class="user" onclick="changeRoom('teknoloji')"># Teknoloji</div>
+
+<hr style="border-color:#ff1f1f">
+
+<h3>Çevrimiçi Kullanıcılar</h3> 
+ <div class="sidebar">
     <h3>Çevrimiçi Kullanıcılar</h3>
     <div id="users"></div>
   </div>
@@ -310,6 +319,7 @@ const DAVET_KODU = "DRIDEX2026";
 
 let currentUser = "";
 let avatar = "";
+let currentRoom = "genel";
 
 const loginBox = document.getElementById("loginBox");
 const chatBox = document.getElementById("chatBox");
@@ -398,7 +408,7 @@ function login(){
   socket.emit("join", {
     username: currentUser,
     avatar: avatar,
-    room: "genel"
+    room: currentRoom
   });
 }
 
@@ -525,7 +535,19 @@ function drawMatrix(){
 }
 
 setInterval(drawMatrix, 35);
+function changeRoom(room){
+  currentRoom = room;
 
+  messages.innerHTML = "";
+
+  socket.emit("join", {
+    username: currentUser,
+    avatar: avatar,
+    room: room
+  });
+
+  renderSystem("Oda değiştirildi: #" + room);
+}
 window.addEventListener("resize", function(){
   resizeCanvas();
   columns = Math.floor(canvas.width / fontSize);
