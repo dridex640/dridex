@@ -255,8 +255,9 @@ button:hover{
   <input id="password" type="password" placeholder="Şifre">
   <input id="avatarInput" type="file" accept="image/*">
 
-  <button id="loginBtn">Kanala Gir</button>
-  <p id="error"></p>
+  <button id="registerBtn">Kayıt Ol</button>
+<button id="loginBtn">Giriş Yap</button>
+<p id="error"></p>
 </div>
 
 <div id="chatBox">
@@ -318,6 +319,7 @@ const messages = document.getElementById("messages");
 const msg = document.getElementById("msg");
 
 document.getElementById("loginBtn").addEventListener("click", login);
+document.getElementById("registerBtn").addEventListener("click", registerUser);
 document.getElementById("sendBtn").addEventListener("click", sendMessage);
 
 document.getElementById("emojiBtn").addEventListener("click", function(){
@@ -367,34 +369,69 @@ msg.addEventListener("keydown", function(e){
   }
 });
 
-function login(){
-  const code = document.getElementById("code").value.trim();
+async function registerUser(){
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  if(code !== DAVET_KODU){
-    error.innerText = "Davet kodu hatalı!";
+  const response = await fetch("/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username,
+      password
+    })
+  });
+
+  const result = await response.json();
+  error.innerText = result.message;
+
+  if(result.success){
+    error.style.color = "#00ff66";
+  } else {
+    error.style.color = "#ff5555";
+  }
+}
+
+async function login(){
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  const response = await fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username,
+      password
+    })
+  });
+
+  const result = await response.json();
+
+  if(!result.success){
+    error.style.color = "#ff5555";
+    error.innerText = result.message;
     return;
   }
 
-  if(username.length < 5){
-    error.innerText = "Kullanıcı adı en az 5 karakter olmalı!";
-    return;
-  }
-
-  if(password.length < 6){
-    error.innerText = "Şifre en az 6 karakter olmalı!";
-    return;
-  }
-
-  currentUser = username;
+  currentUser = result.username;
 
   loginBox.style.display = "none";
   chatBox.style.display = "block";
 
   socket.emit("join", {
-    username: currentUser,
-    avatar: avatar
+  username: currentUser,
+  avatar: avatar,
+  room: "genel"
+});
+}
+
+function sendMessage(){
+  });
+}
   });
 }
 
@@ -531,4 +568,3 @@ window.addEventListener("resize", function(){
 
 </body>
 </html>
- 
