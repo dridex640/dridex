@@ -137,6 +137,7 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
         <button id="emojiBtn">😀 Emoji</button>
         <button id="gifBtn">🎞️ GIF</button>
         <button id="imageBtn">🖼️ Resim</button>
+ <button id="voiceBtn">🎤 Ses</button>
       </div>
 
       <div class="row">
@@ -157,6 +158,8 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
 
 <script>
 const socket = io();
+let mediaRecorder;
+let audioChunks = [];
 const DAVET_KODU = "DRIDEX2026";
 
 let currentUser = "";
@@ -567,6 +570,64 @@ document.addEventListener("click", function(e){
   }
 
 });
+document.getElementById("voiceBtn").addEventListener("click", async () => {
+
+  if(!mediaRecorder || mediaRecorder.state === "inactive"){
+
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio:true
+    });
+
+    mediaRecorder = new MediaRecorder(stream);
+
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = e => {
+      audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = () => {
+
+      const blob = new Blob(audioChunks,{
+        type:"audio/webm"
+      });
+
+      const url = URL.createObjectURL(blob);
+
+      renderVoiceMessage(url);
+    };
+
+    mediaRecorder.start();
+
+    document.getElementById("voiceBtn").innerText = "⏹️ Durdur";
+
+  }else{
+
+    mediaRecorder.stop();
+
+    document.getElementById("voiceBtn").innerText = "🎤 Ses";
+  }
+
+});
+function renderVoiceMessage(audioURL){
+
+  const div = document.createElement("div");
+
+  div.className = "message";
+
+  div.innerHTML = `
+    <span class="name">${currentUser}</span>
+    <span class="time">${getIstanbulTime()}</span><br>
+
+    <audio controls style="width:100%;margin-top:8px;">
+      <source src="${audioURL}" type="audio/webm">
+    </audio>
+  `;
+
+  messages.appendChild(div);
+
+  messages.scrollTop = messages.scrollHeight;
+}
 </script>
 
 </body>
