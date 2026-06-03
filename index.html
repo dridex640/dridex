@@ -131,18 +131,28 @@ let currentUser = "";
 let avatar = "";
 let currentRoom = "genel";
 let typingTimer = null;
-
 const rooms = [
   ["genel","Genel sohbet odası"],
   ["oyun","Oyun muhabbeti"],
   ["teknoloji","Teknoloji ve yazılım"],
   ["müzik","Şarkı ve playlist"],
   ["ders","Ders çalışma"],
-  ["film","Film/dizi"],
+  ["film","Film ve dizi önerileri"],
+  ["spor","Futbol, basketbol ve spor"],
+  ["futbol","Futbol tartışmaları"],
+  ["basketbol","NBA ve EuroLeague"],
+  ["valorant","Valorant oyuncuları"],
+  ["cs2","Counter Strike 2"],
+  ["minecraft","Minecraft dünyası"],
+  ["gta","GTA sohbetleri"],
+  ["yapayzeka","Yapay zeka ve ChatGPT"],
+  ["linux","Linux ve açık kaynak"],
+  ["siber","Siber güvenlik"],
+  ["anime","Anime ve manga"],
+  ["dizi","Dizi önerileri"],
   ["memes","Meme ve eğlence"],
   ["yardım","Yardım ve destek"]
 ];
-
 const emojis = "😀 😃 😄 😁 😆 😂 🤣 🙂 🙃 😉 😊 😎 🤩 🥳 😍 😘 😜 🤪 😇 😈 💀 👻 🤖 👑 🔥 ⚡ 💯 ❤️ 🖤 💙 💜 💚 💛 🧡 🚀 🎮 🎧 🎵 📚 💻 🛡️ 🐺 🐉 🍕 ☕ 🌙 ⭐ ✅ ❌".split(" ");
 
 const gifFaces = "😀 😂 🤣 😎 🔥 💀 👑 ⚡ 🖤 🚀 🎮 🎧 🐱 🐶 🐺 🐉 🍕 ☕ 🌙 ⭐ 😍 😘 😜 🤪 😈 👻 🤖 💯 ❤️ 💙 💜 💚 💛 🧡 🥶 🥵 😴 🤯 😭 😤 🤝 👏 🙌 🕺 💃 🏆 🎉 🎯 🛡️ 💻".split(" ");
