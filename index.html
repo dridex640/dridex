@@ -4,6 +4,525 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DRIDEXCHAT</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  height:100vh;
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
+}
+
+#matrix{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+.box{
+  width:430px;
+  max-width:92vw;
+  background:rgba(0,0,0,.92);
+  border:1px solid #ff1f1f;
+  box-shadow:0 0 40px #ff1f1f;
+  padding:30px;
+  border-radius:20px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+h2,h3{
+  text-align:center;
+  color:#fff;
+  text-shadow:0 0 12px #ff1f1f;
+}
+
+input,button{
+  width:100%;
+  padding:13px;
+  margin-top:12px;
+  border-radius:12px;
+  border:1px solid #ff1f1f;
+  background:#050505;
+  color:#fff;
+  font-size:15px;
+  outline:none;
+}
+
+button{
+  background:#ff1f1f;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#000;
+  color:#ff1f1f;
+  box-shadow:0 0 15px #ff1f1f;
+}
+
+#error{
+  color:#ff5555;
+  text-align:center;
+}
+
+#chatBox{
+  display:none;
+  width:min(980px,96vw);
+  height:min(660px,94vh);
+  background:rgba(0,0,0,.94);
+  border:1px solid #ff1f1f;
+  box-shadow:0 0 45px #ff1f1f;
+  border-radius:20px;
+  overflow:hidden;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+.sidebar{
+  width:240px;
+  height:100%;
+  float:left;
+  padding:15px;
+  border-right:1px solid #ff1f1f;
+  background:rgba(15,0,0,.9);
+}
+
+.user{
+  padding:10px;
+  margin:8px 0;
+  border:1px solid #ff1f1f;
+  border-radius:10px;
+  background:rgba(255,31,31,.12);
+  color:#fff;
+}
+
+.main{
+  margin-left:240px;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.header{
+  padding:15px;
+  text-align:center;
+  font-weight:bold;
+  border-bottom:1px solid #ff1f1f;
+  background:#0b0b0b;
+  color:#fff;
+  text-shadow:0 0 12px #ff1f1f;
+  letter-spacing:2px;
+}
+
+#messages{
+  flex:1;
+  padding:15px;
+  overflow-y:auto;
+  background:rgba(0,0,0,.85);
+}
+
+.message{
+  background:#080808;
+  border-left:3px solid #ff1f1f;
+  padding:10px;
+  border-radius:12px;
+  margin-bottom:10px;
+  color:#fff;
+}
+
+.name{
+  font-weight:bold;
+  color:#ff3b3b;
+}
+
+.time{
+  float:right;
+  font-size:12px;
+  color:#aaa;
+}
+
+.system{
+  text-align:center;
+  color:#ccc;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.sent-img{
+  max-width:250px;
+  max-height:220px;
+  border-radius:12px;
+  margin-top:8px;
+  border:1px solid #ff1f1f;
+}
+
+.input-area{
+  padding:12px;
+  border-top:1px solid #ff1f1f;
+  background:#070707;
+}
+
+.tools{
+  display:flex;
+  gap:8px;
+  margin-bottom:8px;
+}
+
+.tools button{
+  margin:0;
+  width:auto;
+  padding:9px 12px;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+}
+
+.row input{
+  margin:0;
+  flex:1;
+}
+
+.row button{
+  margin:0;
+  width:120px;
+}
+
+#emojiPanel{
+  display:none;
+  padding:8px;
+  border:1px solid #ff1f1f;
+  border-radius:10px;
+  margin-bottom:8px;
+  background:#050505;
+}
+
+.emoji{
+  font-size:23px;
+  cursor:pointer;
+  margin:4px;
+}
+
+.hidden{display:none}
+
+@media(max-width:720px){
+  .sidebar{
+    width:100%;
+    height:120px;
+    float:none;
+    border-right:none;
+    border-bottom:1px solid #ff1f1f;
+    overflow-y:auto;
+  }
+
+  .main{
+    margin-left:0;
+    height:calc(100% - 120px);
+  }
+
+  .row{
+    flex-direction:column;
+  }
+
+  .row button{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="box" id="loginBox">
+  <h2>DRIDEXCHAT</h2>
+
+  <input id="code" placeholder="Davet kodu">
+  <input id="username" placeholder="Kullanıcı adı">
+  <input id="password" type="password" placeholder="Şifre">
+  <input id="avatarInput" type="file" accept="image/*">
+
+  <button id="loginBtn">Kanala Gir</button>
+  <p id="error"></p>
+</div>
+
+<div id="chatBox">
+<h3>Odalar</h3>
+
+<div class="user" onclick="changeRoom('genel')"># Genel</div>
+<div class="user" onclick="changeRoom('oyun')"># Oyun</div>
+<div class="user" onclick="changeRoom('teknoloji')"># Teknoloji</div>
+
+<hr style="border-color:#ff1f1f">
+
+<h3>Çevrimiçi Kullanıcılar</h3> 
+ <div class="sidebar">
+    <h3>Çevrimiçi Kullanıcılar</h3>
+    <div id="users"></div>
+  </div>
+
+  <div class="main">
+    <div class="header">DRIDEXCHAT</div>
+
+    <div id="messages"></div>
+
+    <div class="input-area">
+      <div id="emojiPanel">
+        <span class="emoji">😀</span>
+        <span class="emoji">😂</span>
+        <span class="emoji">😎</span>
+        <span class="emoji">🔥</span>
+        <span class="emoji">💀</span>
+        <span class="emoji">👑</span>
+        <span class="emoji">⚡</span>
+        <span class="emoji">🖤</span>
+        <span class="emoji">🚀</span>
+      </div>
+
+      <div class="tools">
+        <button id="emojiBtn">😀</button>
+        <button id="imageBtn">🖼️ Resim</button>
+      </div>
+
+      <div class="row">
+        <input id="msg" placeholder="Mesaj yaz...">
+        <button id="sendBtn">Gönder</button>
+      </div>
+
+      <input id="imageInput" class="hidden" type="file" accept="image/*">
+    </div>
+  </div>
+</div>
+
+<audio id="notifySound">
+  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
+</audio>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+const DAVET_KODU = "DRIDEX2026";
+
+let currentUser = "";
+let avatar = "";
+let currentRoom = "genel";
+
+const loginBox = document.getElementById("loginBox");
+const chatBox = document.getElementById("chatBox");
+const error = document.getElementById("error");
+const messages = document.getElementById("messages");
+const msg = document.getElementById("msg");
+
+document.getElementById("loginBtn").addEventListener("click", login);
+document.getElementById("sendBtn").addEventListener("click", sendMessage);
+
+document.getElementById("emojiBtn").addEventListener("click", function(){
+  const panel = document.getElementById("emojiPanel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+});
+
+document.querySelectorAll(".emoji").forEach(function(e){
+  e.addEventListener("click", function(){
+    msg.value += e.innerText;
+    msg.focus();
+  });
+});
+
+document.getElementById("imageBtn").addEventListener("click", function(){
+  document.getElementById("imageInput").click();
+});
+
+document.getElementById("avatarInput").addEventListener("change", function(){
+  const file = this.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    avatar = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById("imageInput").addEventListener("change", function(){
+  const file = this.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    socket.emit("image", {
+      fileName:file.name,
+      fileData:reader.result
+    });
+  };
+  reader.readAsDataURL(file);
+});
+
+msg.addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    sendMessage();
+  }
+});
+
+function login(){
+  const code = document.getElementById("code").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if(code !== DAVET_KODU){
+    error.style.color = "#ff5555";
+    error.innerText = "Davet kodu hatalı!";
+    return;
+  }
+
+  if(username.length < 5){
+    error.style.color = "#ff5555";
+    error.innerText = "Kullanıcı adı en az 5 karakter olmalı!";
+    return;
+  }
+
+  if(password.length < 6){
+    error.style.color = "#ff5555";
+    error.innerText = "Şifre en az 6 karakter olmalı!";
+    return;
+  }
+
+  currentUser = username;
+
+  loginBox.style.display = "none";
+  chatBox.style.display = "block";
+
+  socket.emit("join", {
+    username: currentUser,
+    avatar: avatar,
+    room: currentRoom
+  });
+}
+
+function sendMessage(){
+  const text = msg.value.trim();
+  if(text === "") return;
+
+  socket.emit("message", { text:text });
+  msg.value = "";
+}
+
+socket.on("users", function(users){
+  const list = document.getElementById("users");
+  list.innerHTML = "";
+
+  users.forEach(function(user){
+    const div = document.createElement("div");
+    div.className = "user";
+    div.innerText = "● " + user.username;
+    list.appendChild(div);
+  });
+});
+
+socket.on("message", function(data){
+  renderMessage(data);
+
+  if(data.username !== currentUser){
+    playSound();
+  }
+});
+
+socket.on("system", function(data){
+  renderSystem(data.text || data);
+});
+
+socket.on("history", function(history){
+  history.forEach(function(item){
+    if(item.type === "system") renderSystem(item.text);
+    else renderMessage(item);
+  });
+});
+
+function renderMessage(data){
+  const div = document.createElement("div");
+  div.className = "message";
+
+  let content = "";
+
+  if(data.type === "image"){
+    content = `
+      <div>🖼️ ${escapeHtml(data.fileName)}</div>
+      <img class="sent-img" src="${data.fileData}">
+    `;
+  } else {
+    content = `<span>${escapeHtml(data.text)}</span>`;
+  }
+
+  div.innerHTML = `
+    <span class="name">${escapeHtml(data.username)}</span>
+    <span class="time">${escapeHtml(data.time || "")}</span><br>
+    ${content}
+  `;
+
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function renderSystem(text){
+  const div = document.createElement("div");
+  div.className = "system";
+  div.innerText = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function playSound(){
+  const s = document.getElementById("notifySound");
+  s.currentTime = 0;
+  s.play().catch(function(){});
+}
+
+function escapeHtml(text){
+  return String(text || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+/* RED MATRIX */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+
+const letters = "01DRIDEXCHAT#$%&@";
+const fontSize = 17;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(1);
+
+function drawMatrix(){
+  ctx.fillStyle = "rgba(0,0,0,0.08)";
+  <!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRIDEXCHAT</title>
 <style>
 *{box-sizing:border-box}
 :root{--bg:#050505;--panel:#0b0b0f;--soft:#1a1a24;--red:#ff1f1f;--red2:#ff4d4d;--text:#fff;--muted:#aaa}
@@ -78,7 +597,6 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
   border-radius:999px;
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,31,31,.45);
-}
 .reactions{
   display:flex;
   gap:5px;
@@ -126,6 +644,7 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
       </div>
       <div class="pill" id="onlineCount">0 çevrimiçi</div>
     </div>
+
     <div id="messages"></div>
 
     <div class="input-area">
@@ -137,7 +656,6 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
         <button id="emojiBtn">😀 Emoji</button>
         <button id="gifBtn">🎞️ GIF</button>
         <button id="imageBtn">🖼️ Resim</button>
- <button id="voiceBtn">🎤 Ses</button>
       </div>
 
       <div class="row">
@@ -158,8 +676,6 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
 
 <script>
 const socket = io();
-let mediaRecorder;
-let audioChunks = [];
 const DAVET_KODU = "DRIDEX2026";
 
 let currentUser = "";
@@ -176,8 +692,7 @@ const rooms = [
   ["film","Film/dizi"],
   ["memes","Meme ve eğlence"],
   ["yardım","Yardım ve destek"]
-]
-
+];
 
 const emojis = "😀 😃 😄 😁 😆 😂 🤣 🙂 🙃 😉 😊 😎 🤩 🥳 😍 😘 😜 🤪 😇 😈 💀 👻 🤖 👑 🔥 ⚡ 💯 ❤️ 🖤 💙 💜 💚 💛 🧡 🚀 🎮 🎧 🎵 📚 💻 🛡️ 🐺 🐉 🍕 ☕ 🌙 ⭐ ✅ ❌".split(" ");
 
@@ -367,7 +882,6 @@ function sendTyping(){
 }
 
 function changeRoom(room){
-
   if(room === currentRoom) return;
 
   currentRoom = room;
@@ -375,7 +889,6 @@ function changeRoom(room){
   buildRooms();
   joinRoom(room);
   renderSystem("Oda değiştirildi: #" + room);
-}
 }
 
 function updateRoomHeader(){
@@ -573,64 +1086,6 @@ document.addEventListener("click", function(e){
   }
 
 });
-document.getElementById("voiceBtn").addEventListener("click", async () => {
-
-  if(!mediaRecorder || mediaRecorder.state === "inactive"){
-
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio:true
-    });
-
-    mediaRecorder = new MediaRecorder(stream);
-
-    audioChunks = [];
-
-    mediaRecorder.ondataavailable = e => {
-      audioChunks.push(e.data);
-    };
-
-    mediaRecorder.onstop = () => {
-
-      const blob = new Blob(audioChunks,{
-        type:"audio/webm"
-      });
-
-      const url = URL.createObjectURL(blob);
-
-      renderVoiceMessage(url);
-    };
-
-    mediaRecorder.start();
-
-    document.getElementById("voiceBtn").innerText = "⏹️ Durdur";
-
-  }else{
-
-    mediaRecorder.stop();
-
-    document.getElementById("voiceBtn").innerText = "🎤 Ses";
-  }
-
-});
-function renderVoiceMessage(audioURL){
-
-  const div = document.createElement("div");
-
-  div.className = "message";
-
-  div.innerHTML = `
-    <span class="name">${currentUser}</span>
-    <span class="time">${getIstanbulTime()}</span><br>
-
-    <audio controls style="width:100%;margin-top:8px;">
-      <source src="${audioURL}" type="audio/webm">
-    </audio>
-  `;
-
-  messages.appendChild(div);
-
-  messages.scrollTop = messages.scrollHeight;
-}
 </script>
 
 </body>
