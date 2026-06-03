@@ -170,6 +170,20 @@ document.getElementById("avatarInput").addEventListener("change", function(){
   };
   reader.readAsDataURL(file);
 });
+function buildRooms(){
+  const el = document.getElementById("rooms");
+  el.innerHTML = "";
+
+  rooms.forEach(([id, desc]) => {
+    const d = document.createElement("div");
+    d.className = "room" + (id === currentRoom ? " active" : "");
+    d.innerText = "# " + id;
+    d.onclick = () => changeRoom(id);
+    el.appendChild(d);
+  });
+
+  updateRoomHeader();
+}
 function buildEmojiPanel(){
   const panel = document.getElementById("emojiPanel");
   panel.innerHTML = "";
