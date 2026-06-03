@@ -659,12 +659,13 @@ function login(){
   if(code!==DAVET_KODU){error.innerText="Davet kodu hatalı!";return;}
   if(username.length<5){error.innerText="Kullanıcı adı en az 5 karakter olmalı!";return;}
   if(password.length<6){error.innerText="Şifre en az 6 karakter olmalı!";return;}
+currentUser=username;
 
-  currentUser=username;
-  loginBox.style.display="none";
-  chatBox.style.display="block";
-  joinRoom(currentRoom);
-}
+alert("LOGIN CALISTI");
+
+loginBox.style.display="none";
+chatBox.style.display="block";
+ }
 
 function buildRooms(){
   const el=document.getElementById("rooms");
