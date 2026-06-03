@@ -39,12 +39,10 @@ body{
   z-index:5;
 }
 }
-
-.box,#chatBox{
-  z-index:2;
+.box,
+#chatBox{
+  z-index:10;
 }
-}
-
 .box{
   width:430px;
   max-width:92vw;
@@ -81,19 +79,11 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
-
 button:hover{
   background:#000;
   color:var(--red2);
   box-shadow:0 0 15px var(--red);
-window.addEventListener("load", () => {
-
-  buildRooms();
-  buildEmojiPanel();
-  buildGifPanel();
-  renderFilms();
-
-});
+}
 }
 
 #error{
@@ -884,19 +874,6 @@ buildRooms();
 buildEmojiPanel();
 buildGifPanel();
 renderFilms();
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  z-index:1;
-  pointer-events:none;
-}
-.box,
-#chatBox{
-  position:absolute;
-  z-index:2;
 }
 </script>
 </body>
