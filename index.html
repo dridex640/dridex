@@ -376,6 +376,7 @@ function changeRoom(room){
   joinRoom(room);
   renderSystem("Oda değiştirildi: #" + room);
 }
+}
 
 function updateRoomHeader(){
   const r = rooms.find(x => x[0] === currentRoom) || rooms[0];
