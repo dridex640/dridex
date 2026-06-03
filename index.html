@@ -437,7 +437,7 @@ function renderMessage(data){
     ${content}
 ${data.username === currentUser ? `
 <div class="message-actions">
-  <button class="delete-btn" onclick="deleteMessage(this)">🗑️ Sil</button>
+  <button class="delete-btn">🗑️ Sil</button>
 </div>
 ` : ""}
   `;
@@ -513,6 +513,14 @@ window.addEventListener("resize", () => {
   resizeCanvas();
   columns = Math.floor(canvas.width / fontSize);
   drops = Array(columns).fill(1);
+});
+document.addEventListener("click", function(e){
+  if(e.target.classList.contains("delete-btn")){
+    const message = e.target.closest(".message");
+    if(message){
+      message.remove();
+    }
+  }
 });
 </script>
 
