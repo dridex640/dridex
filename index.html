@@ -4,296 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DRIDEXCHAT</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  height:100vh;
-  background:#000;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  overflow:hidden;
-}
-
-#matrix{
-  position:fixed;
-  top:0;
-  left:0;
-  z-index:-1;
-}
-
-.box{
-  width:430px;
-  max-width:92vw;
-  background:rgba(0,0,0,.92);
-  border:1px solid #ff1f1f;
-  box-shadow:0 0 40px #ff1f1f;
-  padding:30px;
-  border-radius:20px;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-}
-
-h2,h3{
-  text-align:center;
-  color:#fff;
-  text-shadow:0 0 12px #ff1f1f;
-}
-
-input,button{
-  width:100%;
-  padding:13px;
-  margin-top:12px;
-  border-radius:12px;
-  border:1px solid #ff1f1f;
-  background:#050505;
-  color:#fff;
-  font-size:15px;
-  outline:none;
-}
-
-button{
-  background:#ff1f1f;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:hover{
-  background:#000;
-  color:#ff1f1f;
-  box-shadow:0 0 15px #ff1f1f;
-}
-
-#error{
-  color:#ff5555;
-  text-align:center;
-}
-
-#chatBox{
-  display:none;
-  width:min(980px,96vw);
-  height:min(660px,94vh);
-  background:rgba(0,0,0,.94);
-  border:1px solid #ff1f1f;
-  box-shadow:0 0 45px #ff1f1f;
-  border-radius:20px;
-  overflow:hidden;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-}
-
-.sidebar{
-  width:240px;
-  height:100%;
-  float:left;
-  padding:15px;
-  border-right:1px solid #ff1f1f;
-  background:rgba(15,0,0,.9);
-}
-
-.user{
-  padding:10px;
-  margin:8px 0;
-  border:1px solid #ff1f1f;
-  border-radius:10px;
-  background:rgba(255,31,31,.12);
-  color:#fff;
-}
-
-.main{
-  margin-left:240px;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-}
-
-.header{
-  padding:15px;
-  text-align:center;
-  font-weight:bold;
-  border-bottom:1px solid #ff1f1f;
-  background:#0b0b0b;
-  color:#fff;
-  text-shadow:0 0 12px #ff1f1f;
-  letter-spacing:2px;
-}
-
-#messages{
-  flex:1;
-  padding:15px;
-  overflow-y:auto;
-  background:rgba(0,0,0,.85);
-}
-
-.message{
-  background:#080808;
-  border-left:3px solid #ff1f1f;
-  padding:10px;
-  border-radius:12px;
-  margin-bottom:10px;
-  color:#fff;
-}
-
-.name{
-  font-weight:bold;
-  color:#ff3b3b;
-}
-
-.time{
-  float:right;
-  font-size:12px;
-  color:#aaa;
-}
-
-.system{
-  text-align:center;
-  color:#ccc;
-  font-size:13px;
-  margin-bottom:10px;
-}
-
-.sent-img{
-  max-width:250px;
-  max-height:220px;
-  border-radius:12px;
-  margin-top:8px;
-  border:1px solid #ff1f1f;
-}
-
-.input-area{
-  padding:12px;
-  border-top:1px solid #ff1f1f;
-  background:#070707;
-}
-
-.tools{
-  display:flex;
-  gap:8px;
-  margin-bottom:8px;
-}
-
-.tools button{
-  margin:0;
-  width:auto;
-  padding:9px 12px;
-}
-
-.row{
-  display:flex;
-  gap:8px;
-}
-
-.row input{
-  margin:0;
-  flex:1;
-}
-
-.row button{
-  margin:0;
-  width:120px;
-}
-
-#emojiPanel{
-  display:none;
-  padding:8px;
-  border:1px solid #ff1f1f;
-  border-radius:10px;
-  margin-bottom:8px;
-  background:#050505;
-}
-
-.emoji{
-  font-size:23px;
-  cursor:pointer;
-  margin:4px;
-}
-
+:root{--bg:#050505;--panel:#0b0b0f;--soft:#1a1a24;--red:#ff1f1f;--red2:#ff4d4d;--text:#fff;--muted:#aaa}
+body{margin:0;height:100vh;background:#000;color:#fff;font-family:Arial,sans-serif;overflow:hidden}
+#matrix{position:fixed;top:0;left:0;z-index:-1}
+.box{width:430px;max-width:92vw;background:rgba(5,5,8,.94);border:1px solid var(--red);box-shadow:0 0 40px rgba(255,31,31,.75);padding:30px;border-radius:20px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+h2,h3{text-align:center;text-shadow:0 0 12px var(--red)}
+input,button{width:100%;padding:13px;margin-top:12px;border-radius:12px;border:1px solid var(--red);background:#050505;color:#fff;font-size:15px;outline:none}
+button{background:linear-gradient(135deg,#ff1f1f,#9b0000);font-weight:bold;cursor:pointer}
+button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
+#error{color:#ff5555;text-align:center}
+#chatBox{display:none;width:min(1160px,97vw);height:min(720px,95vh);background:rgba(0,0,0,.94);border:1px solid var(--red);box-shadow:0 0 45px rgba(255,31,31,.7);border-radius:20px;overflow:hidden;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.sidebar{width:270px;height:100%;float:left;padding:14px;border-right:1px solid rgba(255,31,31,.8);background:linear-gradient(180deg,rgba(30,0,0,.98),rgba(8,8,14,.98));overflow-y:auto}
+.brand{font-size:22px;font-weight:900;letter-spacing:2px;text-align:center;margin-bottom:16px;text-shadow:0 0 15px var(--red)}
+.section-title{font-size:12px;color:#bbb;text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.room,.user{padding:10px 12px;margin:7px 0;border:1px solid rgba(255,31,31,.45);border-radius:12px;background:rgba(255,31,31,.09);color:#fff;cursor:pointer}
+.room:hover,.room.active{background:rgba(255,31,31,.25);box-shadow:0 0 14px rgba(255,31,31,.35);transform:translateX(3px)}
+.user{cursor:default;border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
+.online-dot{color:#33ff77}
+.main{margin-left:270px;height:100%;display:flex;flex-direction:column}
+.header{padding:16px;border-bottom:1px solid rgba(255,31,31,.75);background:rgba(10,10,14,.97);display:flex;justify-content:space-between;align-items:center}
+.room-title{font-weight:900;text-shadow:0 0 12px var(--red);letter-spacing:1px}
+.room-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.pill{font-size:12px;border:1px solid rgba(255,31,31,.55);border-radius:999px;padding:7px 10px;background:rgba(255,31,31,.08)}
+#messages{flex:1;padding:16px;overflow-y:auto;background:rgba(0,0,0,.78)}
+.message{background:linear-gradient(180deg,#101018,#08080c);border-left:3px solid var(--red);padding:11px;border-radius:14px;margin-bottom:10px}
+.name{font-weight:bold;color:var(--red2)}
+.time{float:right;font-size:12px;color:#aaa}
+.system{text-align:center;color:#ccc;font-size:13px;margin:10px 0}
+.sent-img,.sent-gif{max-width:260px;max-height:220px;border-radius:12px;margin-top:8px;border:1px solid var(--red);display:block}
+.input-area{padding:12px;border-top:1px solid rgba(255,31,31,.75);background:#08080c}
+.panel{display:none;max-height:165px;overflow-y:auto;padding:9px;border:1px solid rgba(255,31,31,.7);border-radius:12px;margin-bottom:8px;background:#050507}
+.emoji{font-size:24px;cursor:pointer;margin:4px;display:inline-block}
+.emoji:hover{transform:scale(1.25)}
+.gif-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.gif-card{height:56px;border:1px solid rgba(255,31,31,.45);border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;position:relative}
+.gif-card::after{content:"GIF";position:absolute;right:5px;bottom:4px;font-size:9px;background:#ff1f1f;padding:2px 4px;border-radius:5px}
+.tools{display:flex;gap:8px;margin-bottom:8px}
+.tools button{margin:0;width:auto;padding:9px 12px}
+.row{display:flex;gap:8px}
+.row input{margin:0;flex:1}
+.row button{margin:0;width:120px}
+#typingIndicator{height:18px;color:#ff7777;font-size:13px;margin:0 0 6px 4px}
 .hidden{display:none}
-
-@media(max-width:720px){
-  .sidebar{
-    width:100%;
-    height:120px;
-    float:none;
-    border-right:none;
-    border-bottom:1px solid #ff1f1f;
-    overflow-y:auto;
-  }
-
-  .main{
-    margin-left:0;
-    height:calc(100% - 120px);
-  }
-
-  .row{
-    flex-direction:column;
-  }
-
-  .row button{
-    width:100%;
-  }
-}
+.avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid var(--red);vertical-align:middle;margin-right:7px}
+@media(max-width:760px){.sidebar{width:100%;height:185px;float:none;border-right:none;border-bottom:1px solid var(--red)}.main{margin-left:0;height:calc(100% - 185px)}.row{flex-direction:column}.row button{width:100%}}
 </style>
 </head>
-
 <body>
 
 <canvas id="matrix"></canvas>
 
 <div class="box" id="loginBox">
   <h2>DRIDEXCHAT</h2>
-
   <input id="code" placeholder="Davet kodu">
   <input id="username" placeholder="Kullanıcı adı">
   <input id="password" type="password" placeholder="Şifre">
   <input id="avatarInput" type="file" accept="image/*">
-
   <button id="loginBtn">Kanala Gir</button>
   <p id="error"></p>
 </div>
 
 <div id="chatBox">
-<h3>Odalar</h3>
-
-<div class="user" onclick="changeRoom('genel')"># Genel</div>
-<div class="user" onclick="changeRoom('oyun')"># Oyun</div>
-<div class="user" onclick="changeRoom('teknoloji')"># Teknoloji</div>
-
-<hr style="border-color:#ff1f1f">
-
-<h3>Çevrimiçi Kullanıcılar</h3> 
- <div class="sidebar">
-    <h3>Çevrimiçi Kullanıcılar</h3>
+  <div class="sidebar">
+    <div class="brand">DRIDEXCHAT</div>
+    <div class="section-title">Sohbet Odaları</div>
+    <div id="rooms"></div>
+    <div class="section-title">Çevrimiçi Kullanıcılar</div>
     <div id="users"></div>
   </div>
 
   <div class="main">
-    <div class="header">DRIDEXCHAT</div>
+    <div class="header">
+      <div>
+        <div class="room-title" id="roomTitle"># genel</div>
+        <div class="room-sub" id="roomDesc">Genel sohbet odası</div>
+      </div>
+      <div class="pill" id="onlineCount">0 çevrimiçi</div>
+    </div>
 
     <div id="messages"></div>
 
     <div class="input-area">
-      <div id="emojiPanel">
-        <span class="emoji">😀</span>
-        <span class="emoji">😂</span>
-        <span class="emoji">😎</span>
-        <span class="emoji">🔥</span>
-        <span class="emoji">💀</span>
-        <span class="emoji">👑</span>
-        <span class="emoji">⚡</span>
-        <span class="emoji">🖤</span>
-        <span class="emoji">🚀</span>
-      </div>
+      <div id="typingIndicator"></div>
+      <div id="emojiPanel" class="panel"></div>
+      <div id="gifPanel" class="panel"><div class="gif-grid" id="gifGrid"></div></div>
 
       <div class="tools">
-        <button id="emojiBtn">😀</button>
+        <button id="emojiBtn">😀 Emoji</button>
+        <button id="gifBtn">🎞️ GIF</button>
         <button id="imageBtn">🖼️ Resim</button>
       </div>
 
@@ -320,6 +120,22 @@ const DAVET_KODU = "DRIDEX2026";
 let currentUser = "";
 let avatar = "";
 let currentRoom = "genel";
+let typingTimer = null;
+
+const rooms = [
+  ["genel","Genel sohbet odası"],
+  ["oyun","Oyun muhabbeti"],
+  ["teknoloji","Teknoloji ve yazılım"],
+  ["müzik","Şarkı ve playlist"],
+  ["ders","Ders çalışma"],
+  ["film","Film/dizi"],
+  ["memes","Meme ve eğlence"],
+  ["yardım","Yardım ve destek"]
+];
+
+const emojis = "😀 😃 😄 😁 😆 😂 🤣 🙂 🙃 😉 😊 😎 🤩 🥳 😍 😘 😜 🤪 😇 😈 💀 👻 🤖 👑 🔥 ⚡ 💯 ❤️ 🖤 💙 💜 💚 💛 🧡 🚀 🎮 🎧 🎵 📚 💻 🛡️ 🐺 🐉 🍕 ☕ 🌙 ⭐ ✅ ❌".split(" ");
+
+const gifFaces = "😀 😂 🤣 😎 🔥 💀 👑 ⚡ 🖤 🚀 🎮 🎧 🐱 🐶 🐺 🐉 🍕 ☕ 🌙 ⭐ 😍 😘 😜 🤪 😈 👻 🤖 💯 ❤️ 💙 💜 💚 💛 🧡 🥶 🥵 😴 🤯 😭 😤 🤝 👏 🙌 🕺 💃 🏆 🎉 🎯 🛡️ 💻".split(" ");
 
 const loginBox = document.getElementById("loginBox");
 const chatBox = document.getElementById("chatBox");
@@ -330,30 +146,85 @@ const msg = document.getElementById("msg");
 document.getElementById("loginBtn").addEventListener("click", login);
 document.getElementById("sendBtn").addEventListener("click", sendMessage);
 
-document.getElementById("emojiBtn").addEventListener("click", function(){
-  const panel = document.getElementById("emojiPanel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
-});
+document.getElementById("emojiBtn").onclick = () => togglePanel("emojiPanel");
+document.getElementById("gifBtn").onclick = () => togglePanel("gifPanel");
+document.getElementById("imageBtn").onclick = () => document.getElementById("imageInput").click();
 
-document.querySelectorAll(".emoji").forEach(function(e){
-  e.addEventListener("click", function(){
-    msg.value += e.innerText;
-    msg.focus();
+function buildRooms(){
+  const el = document.getElementById("rooms");
+  el.innerHTML = "";
+
+  rooms.forEach(([id, desc]) => {
+    const d = document.createElement("div");
+    d.className = "room" + (id === currentRoom ? " active" : "");
+    d.innerText = "# " + id;
+    d.onclick = () => changeRoom(id);
+    el.appendChild(d);
   });
-});
 
-document.getElementById("imageBtn").addEventListener("click", function(){
-  document.getElementById("imageInput").click();
-});
+  updateRoomHeader();
+}
+
+function buildEmojiPanel(){
+  const panel = document.getElementById("emojiPanel");
+  panel.innerHTML = "";
+
+  emojis.forEach(x => {
+    const s = document.createElement("span");
+    s.className = "emoji";
+    s.innerText = x;
+    s.onclick = () => {
+      msg.value += x;
+      msg.focus();
+      sendTyping();
+    };
+    panel.appendChild(s);
+  });
+}
+
+function makeGifData(face, i){
+  const colors = ["ff1f1f","ff4d4d","8a0000","ff7777","ffffff"];
+  const c = colors[i % colors.length];
+
+  const svg =
+  `<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220' viewBox='0 0 320 220'>
+    <rect width='100%' height='100%' rx='28' fill='%2307070b'/>
+    <circle cx='160' cy='110' r='70' fill='%23${c}' opacity='.18'>
+      <animate attributeName='r' values='55;82;55' dur='1s' repeatCount='indefinite'/>
+    </circle>
+    <text x='50%' y='53%' text-anchor='middle' dominant-baseline='middle' font-size='80'>${face}</text>
+    <text x='50%' y='88%' text-anchor='middle' font-size='24' fill='%23ffffff'>DRIDEX GIF ${i+1}</text>
+  </svg>`;
+
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+
+function buildGifPanel(){
+  const grid = document.getElementById("gifGrid");
+  grid.innerHTML = "";
+
+  gifFaces.forEach((face, i) => {
+    const d = document.createElement("div");
+    d.className = "gif-card";
+    d.innerText = face;
+    d.onclick = () => sendGif(makeGifData(face, i), "DRIDEX-GIF-" + (i + 1));
+    grid.appendChild(d);
+  });
+}
+
+function togglePanel(id){
+  ["emojiPanel","gifPanel"].forEach(p => {
+    const el = document.getElementById(p);
+    el.style.display = (p === id && el.style.display !== "block") ? "block" : "none";
+  });
+}
 
 document.getElementById("avatarInput").addEventListener("change", function(){
   const file = this.files[0];
   if(!file) return;
 
   const reader = new FileReader();
-  reader.onload = function(){
-    avatar = reader.result;
-  };
+  reader.onload = () => avatar = reader.result;
   reader.readAsDataURL(file);
 });
 
@@ -362,20 +233,20 @@ document.getElementById("imageInput").addEventListener("change", function(){
   if(!file) return;
 
   const reader = new FileReader();
-  reader.onload = function(){
-    socket.emit("image", {
-      fileName:file.name,
-      fileData:reader.result
-    });
-  };
+  reader.onload = () => socket.emit("image", {
+    room: currentRoom,
+    fileName: file.name,
+    fileData: reader.result
+  });
   reader.readAsDataURL(file);
 });
 
-msg.addEventListener("keydown", function(e){
-  if(e.key === "Enter"){
-    sendMessage();
-  }
+msg.addEventListener("keydown", e => {
+  if(e.key === "Enter") sendMessage();
+  else sendTyping();
 });
+
+msg.addEventListener("input", sendTyping);
 
 function login(){
   const code = document.getElementById("code").value.trim();
@@ -383,32 +254,31 @@ function login(){
   const password = document.getElementById("password").value.trim();
 
   if(code !== DAVET_KODU){
-    error.style.color = "#ff5555";
     error.innerText = "Davet kodu hatalı!";
     return;
   }
 
   if(username.length < 5){
-    error.style.color = "#ff5555";
     error.innerText = "Kullanıcı adı en az 5 karakter olmalı!";
     return;
   }
 
   if(password.length < 6){
-    error.style.color = "#ff5555";
     error.innerText = "Şifre en az 6 karakter olmalı!";
     return;
   }
 
   currentUser = username;
-
   loginBox.style.display = "none";
   chatBox.style.display = "block";
+  joinRoom(currentRoom);
+}
 
+function joinRoom(room){
   socket.emit("join", {
     username: currentUser,
     avatar: avatar,
-    room: currentRoom
+    room: room
   });
 }
 
@@ -416,36 +286,110 @@ function sendMessage(){
   const text = msg.value.trim();
   if(text === "") return;
 
-  socket.emit("message", { text:text });
+  socket.emit("message", {
+    room: currentRoom,
+    text: text
+  });
+
+  socket.emit("stopTyping", {
+    room: currentRoom,
+    username: currentUser
+  });
+
   msg.value = "";
+  document.getElementById("typingIndicator").innerText = "";
 }
 
-socket.on("users", function(users){
+function sendGif(src, name){
+  socket.emit("gif", {
+    room: currentRoom,
+    fileName: name,
+    fileData: src,
+    type: "gif"
+  });
+
+  document.getElementById("gifPanel").style.display = "none";
+}
+
+function sendTyping(){
+  if(!currentUser) return;
+
+  socket.emit("typing", {
+    room: currentRoom,
+    username: currentUser
+  });
+
+  clearTimeout(typingTimer);
+
+  typingTimer = setTimeout(() => {
+    socket.emit("stopTyping", {
+      room: currentRoom,
+      username: currentUser
+    });
+  }, 900);
+}
+
+function changeRoom(room){
+  if(room === currentRoom) return;
+
+  currentRoom = room;
+  messages.innerHTML = "";
+  buildRooms();
+  joinRoom(room);
+  renderSystem("Oda değiştirildi: #" + room);
+}
+
+function updateRoomHeader(){
+  const r = rooms.find(x => x[0] === currentRoom) || rooms[0];
+  document.getElementById("roomTitle").innerText = "# " + r[0];
+  document.getElementById("roomDesc").innerText = r[1];
+}
+
+socket.on("users", users => {
   const list = document.getElementById("users");
   list.innerHTML = "";
 
-  users.forEach(function(user){
+  document.getElementById("onlineCount").innerText = users.length + " çevrimiçi";
+
+  users.forEach(user => {
     const div = document.createElement("div");
     div.className = "user";
-    div.innerText = "● " + user.username;
+    div.innerHTML = `<span class="online-dot">●</span> ${escapeHtml(user.username)}`;
     list.appendChild(div);
   });
 });
 
-socket.on("message", function(data){
+socket.on("message", data => {
   renderMessage(data);
+  if(data.username !== currentUser) playSound();
+});
 
+socket.on("image", data => {
+  renderMessage({...data, type:"image"});
+  if(data.username !== currentUser) playSound();
+});
+
+socket.on("gif", data => {
+  renderMessage({...data, type:"gif"});
+  if(data.username !== currentUser) playSound();
+});
+
+socket.on("typing", data => {
   if(data.username !== currentUser){
-    playSound();
+    document.getElementById("typingIndicator").innerText = data.username + " yazıyor...";
   }
 });
 
-socket.on("system", function(data){
-  renderSystem(data.text || data);
+socket.on("stopTyping", data => {
+  const t = document.getElementById("typingIndicator");
+  if(t.innerText.startsWith(data.username)) t.innerText = "";
 });
 
-socket.on("history", function(history){
-  history.forEach(function(item){
+socket.on("system", data => renderSystem(data.text || data));
+
+socket.on("history", history => {
+  messages.innerHTML = "";
+  history.forEach(item => {
     if(item.type === "system") renderSystem(item.text);
     else renderMessage(item);
   });
@@ -458,16 +402,18 @@ function renderMessage(data){
   let content = "";
 
   if(data.type === "image"){
-    content = `
-      <div>🖼️ ${escapeHtml(data.fileName)}</div>
-      <img class="sent-img" src="${data.fileData}">
-    `;
+    content = `<div>🖼️ ${escapeHtml(data.fileName)}</div><img class="sent-img" src="${data.fileData}">`;
+  } else if(data.type === "gif"){
+    content = `<div>🎞️ ${escapeHtml(data.fileName)}</div><img class="sent-gif" src="${data.fileData}">`;
   } else {
     content = `<span>${escapeHtml(data.text)}</span>`;
   }
 
   div.innerHTML = `
-    <span class="name">${escapeHtml(data.username)}</span>
+    <span class="name">
+      ${data.avatar ? `<img class="avatar" src="${data.avatar}">` : ""}
+      ${escapeHtml(data.username)}
+    </span>
     <span class="time">${escapeHtml(data.time || "")}</span><br>
     ${content}
   `;
@@ -487,7 +433,7 @@ function renderSystem(text){
 function playSound(){
   const s = document.getElementById("notifySound");
   s.currentTime = 0;
-  s.play().catch(function(){});
+  s.play().catch(() => {});
 }
 
 function escapeHtml(text){
@@ -499,7 +445,10 @@ function escapeHtml(text){
     .replaceAll("'","&#039;");
 }
 
-/* RED MATRIX */
+buildRooms();
+buildEmojiPanel();
+buildGifPanel();
+
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -522,7 +471,7 @@ function drawMatrix(){
   ctx.fillStyle = "#ff1f1f";
   ctx.font = fontSize + "px monospace";
 
-  for(let i=0;i<drops.length;i++){
+  for(let i = 0; i < drops.length; i++){
     const text = letters.charAt(Math.floor(Math.random() * letters.length));
     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
@@ -535,20 +484,8 @@ function drawMatrix(){
 }
 
 setInterval(drawMatrix, 35);
-function changeRoom(room){
-  currentRoom = room;
 
-  messages.innerHTML = "";
-
-  socket.emit("join", {
-    username: currentUser,
-    avatar: avatar,
-    room: room
-  });
-
-  renderSystem("Oda değiştirildi: #" + room);
-}
-window.addEventListener("resize", function(){
+window.addEventListener("resize", () => {
   resizeCanvas();
   columns = Math.floor(canvas.width / fontSize);
   drops = Array(columns).fill(1);
