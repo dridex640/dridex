@@ -518,7 +518,16 @@ document.addEventListener("click", function(e){
   if(e.target.classList.contains("delete-btn")){
     const message = e.target.closest(".message");
     if(message){
-      message.remove();
+      message.innerHTML = `
+  <div style="
+    color:#999;
+    font-style:italic;
+    padding:10px;
+    border-left:3px solid #555;
+  ">
+    🗑️ Bu mesaj silindi.
+  </div>
+`;
     }
   }
 });
