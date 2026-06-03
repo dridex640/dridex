@@ -78,6 +78,7 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
   border-radius:999px;
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,31,31,.45);
+}
 .reactions{
   display:flex;
   gap:5px;
@@ -167,9 +168,6 @@ let currentRoom = "genel";
 let typingTimer = null;
 
 const rooms = [
-
-  }
-];
   ["genel","Genel sohbet odası"],
   ["oyun","Oyun muhabbeti"],
   ["teknoloji","Teknoloji ve yazılım"],
@@ -178,7 +176,8 @@ const rooms = [
   ["film","Film/dizi"],
   ["memes","Meme ve eğlence"],
   ["yardım","Yardım ve destek"]
-];
+]
+
 
 const emojis = "😀 😃 😄 😁 😆 😂 🤣 🙂 🙃 😉 😊 😎 🤩 🥳 😍 😘 😜 🤪 😇 😈 💀 👻 🤖 👑 🔥 ⚡ 💯 ❤️ 🖤 💙 💜 💚 💛 🧡 🚀 🎮 🎧 🎵 📚 💻 🛡️ 🐺 🐉 🍕 ☕ 🌙 ⭐ ✅ ❌".split(" ");
 
@@ -368,7 +367,7 @@ function sendTyping(){
 }
 
 function changeRoom(room){
-}
+
   if(room === currentRoom) return;
 
   currentRoom = room;
