@@ -26,12 +26,17 @@ body{
   font-family:Arial,sans-serif;
   overflow:hidden;
 }
-
 #matrix{
   position:fixed;
   top:0;
   left:0;
-  z-index:-1;
+  z-index:0;
+  pointer-events:none;
+}
+
+.box,#chatBox{
+  z-index:2;
+}
 }
 
 .box{
