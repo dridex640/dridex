@@ -394,7 +394,13 @@ socket.on("history", history => {
     else renderMessage(item);
   });
 });
-
+function getIstanbulTime(){
+  return new Date().toLocaleTimeString("tr-TR", {
+    timeZone: "Europe/Istanbul",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
 function renderMessage(data){
   const div = document.createElement("div");
   div.className = "message";
