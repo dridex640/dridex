@@ -420,7 +420,7 @@ function renderMessage(data){
       ${data.avatar ? `<img class="avatar" src="${data.avatar}">` : ""}
       ${escapeHtml(data.username)}
     </span>
-    <span class="time">${escapeHtml(data.time || "")}</span><br>
+  <span class="time">${getIstanbulTime()}</span><br>
     ${content}
   `;
 
