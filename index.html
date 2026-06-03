@@ -63,6 +63,35 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
   border:1px solid #ff1f1f;
   cursor:pointer;
 }
+.reactions{
+  margin-top:8px;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.reaction-btn{
+  width:auto;
+  margin:0;
+  padding:5px 9px;
+  font-size:13px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,31,31,.45);
+.reactions{
+  display:flex;
+  gap:5px;
+  margin-top:8px;
+}
+
+.reaction-btn{
+  width:auto;
+  margin:0;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:12px;
+}
+}
 </style>
 </head>
 <body>
@@ -435,6 +464,12 @@ function renderMessage(data){
     </span>
   <span class="time">${getIstanbulTime()}</span><br>
     ${content}
+<div class="reactions">
+  <button class="reaction-btn">❤️ <span>0</span></button>
+  <button class="reaction-btn">😂 <span>0</span></button>
+  <button class="reaction-btn">🔥 <span>0</span></button>
+  <button class="reaction-btn">👍 <span>0</span></button>
+</div>
 ${data.username === currentUser ? `
 <div class="message-actions">
   <button class="delete-btn">🗑️ Sil</button>
@@ -530,6 +565,16 @@ document.addEventListener("click", function(e){
 `;
     }
   }
+});
+document.addEventListener("click", function(e){
+
+  const btn = e.target.closest(".reaction-btn");
+
+  if(btn){
+    const count = btn.querySelector("span");
+    count.innerText = Number(count.innerText) + 1;
+  }
+
 });
 </script>
 
