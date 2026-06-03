@@ -125,26 +125,6 @@ button:hover{background:#000;color:var(--red2);box-shadow:0 0 15px var(--red)}
       </div>
       <div class="pill" id="onlineCount">0 çevrimiçi</div>
     </div>
-<div id="filmHub" style="display:none;">
-  <h2>🎬 Film Merkezi</h2>
-
-  <input
-    type="text"
-    id="filmSearch"
-    placeholder="Film ara..."
-    style="
-      width:100%;
-      padding:10px;
-      margin-bottom:10px;
-      border-radius:10px;
-      border:1px solid #ff1f1f;
-      background:#111;
-      color:white;
-    "
-  >
-
-  <div id="filmList"></div>
-</div>
     <div id="messages"></div>
 
     <div class="input-area">
@@ -187,26 +167,7 @@ let currentRoom = "genel";
 let typingTimer = null;
 
 const rooms = [
-const films = [
-  {
-    title:"Interstellar",
-    imdb:"8.7",
-    year:"2014",
-    description:"İnsanlığın yeni bir gezegen arayışını anlatır."
-  },
 
-  {
-    title:"Inception",
-    imdb:"8.8",
-    year:"2010",
-    description:"Rüya içinde rüya konsepti."
-  },
-
-  {
-    title:"The Dark Knight",
-    imdb:"9.0",
-    year:"2008",
-    description:"Batman ve Joker mücadelesi."
   }
 ];
   ["genel","Genel sohbet odası"],
